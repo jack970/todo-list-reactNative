@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './src/assets/styles';
+import {Task, Input, Header} from './src/index.js'
 import { 
     View, 
     Alert,
@@ -7,9 +8,6 @@ import {
     AsyncStorage,
     KeyboardAvoidingView, Platform
   } from 'react-native';
-import Task from './src/components/Task';
-import Input from './src/components/Input';
-import Header from './src/components/Header';
 
 export default function App() {
     const [task, setTask] = useState([])
