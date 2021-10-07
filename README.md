@@ -11,7 +11,7 @@
 - Pesquisar Item
 - Adicionar data no Item
 - alterar prioridade da ordem dos itens
-
+- Adicionar alerta para tarefa
   
   
 
