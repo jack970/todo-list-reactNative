@@ -4,10 +4,10 @@ import { View , Text, FlatList } from 'react-native'
 import styles from '../assets/styles'
 import TodoItem from './TodoItem';
 
-const Task = ({task, setTask}) => {
+const Task = ({task, setTask, notTaskMessage}) => {
     return(
         <View style={styles.Body}>
-            {task.length == 0 && <Text style={{color: '#fff'}}>Você não tem tarefas hoje!</Text>}
+            {task.length == 0 && <Text style={{color: '#fff'}}>{notTaskMessage}</Text>}
             {task.length != 0 && 
                 <FlatList 
                     style={styles.FlatList}

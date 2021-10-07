@@ -59,7 +59,7 @@ export default function App() {
       >
         <Header title="Tarefas do Dia" setTask={setTask}/>
         <View style={styles.container}>
-          <Task task={task} setTask={setTask} />
+          <Task notTaskMessage='Nenhuma tarefa foi adicionada!' task={task} setTask={setTask} />
           <Input 
             newTask={newTask} 
             setNewTask={setNewTask} 
