@@ -26,7 +26,7 @@ const Header = ({title, setTask}) => {
 
     return(
     <View style={styles.Header}>
-        <Text style={{fontWeight: 'bold', fontSize: 20, color: '#fff'}}>
+        <Text style={styles.Title}>
             {title}
         </Text>
         <TouchableOpacity onPress={() => onHandleRemoveAllTasks()}>

@@ -12,3 +12,8 @@
 - [ ] Adicionar data no Item
 - [ ] alterar prioridade da ordem dos itens
 - [ ] Adicionar notificação de alerta para Tarefa
+
+## Atualizações
+
+- Limitador de caracteres removido
+- adicionar autoFocus no input de alteração da Tarefa.

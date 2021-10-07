@@ -13,7 +13,6 @@ const Input = ({ newTask, setNewTask, onHandleAddTask }) => {
               placeholderTextColor="#fff"  
               autoCorrect={true}
               placeholder="Adicione uma tarefa"
-              maxLength={25}
               value={newTask}
               onChangeText={text => setNewTask(text)}
             />

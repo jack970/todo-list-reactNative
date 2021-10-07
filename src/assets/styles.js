@@ -9,6 +9,11 @@ export default StyleSheet.create({
       flexDirection: 'row',
       justifyContent: 'space-between'
     },
+    Title: {
+      fontWeight: 'bold', 
+      fontSize: 27, 
+      color: '#fff'
+    },
     container: {
       flex: 1,
       backgroundColor: '#1E1A3C',
@@ -25,8 +30,6 @@ export default StyleSheet.create({
       alignSelf: 'stretch',
       flexDirection: 'row',
       paddingTop: 13,
-      borderTopWidth: 1,
-      borderColor: '#FFF'
     },
     InputUpdate: {
       flex: 1,
