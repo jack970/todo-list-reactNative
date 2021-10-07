@@ -82,14 +82,6 @@ export default StyleSheet.create({
       fontWeight: "bold",
       maxWidth: '70%'
     },
-    TextoCompleted: {
-      color: "#FFF",
-      fontSize: 18,
-      marginLeft: 10,
-      textDecorationLine: 'line-through',
-      fontWeight: "bold",
-      maxWidth: '70%'
-    },
     caixa: {
       transform:  [{ scaleX: 2 }, { scaleY: 2 }],
     },  

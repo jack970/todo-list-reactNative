@@ -60,7 +60,7 @@ const TodoItem = ({task, setTask, item}) => {
             <View style={styles.taskContainer}>
                     {isEditing 
                     ? <TextInput maxLength={35} multiline value={newText} style={styles.InputUpdate} onChangeText={setNewText}/>
-                    : <Text style={isSelected ? styles.TextoCompleted : styles.Texto}>{item.value}</Text>}
+                    : <Text style={[styles.Texto, isSelected && {textDecorationLine: 'line-through'}]}>{item.value}</Text>}
                 <View style={styles.Buttons}>
                     {isEditing 
                     ? <TouchableOpacity //Button save
