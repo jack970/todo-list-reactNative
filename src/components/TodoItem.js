@@ -1,25 +1,24 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { MaterialIcons } from '@expo/vector-icons'
-import { Alert, Text, CheckBox, TextInput, TouchableOpacity, View } from 'react-native'
+import { Alert, Text, CheckBox, TextInput, TouchableOpacity, View, KeyboardAvoidingView, Platform } from 'react-native'
 import styles from '../assets/styles'
 
 const TodoItem = ({task, setTask, item}) => {
     const [isEditing, setEdit] = useState(false);
-    const [isSelected, setSelection] = useState(item.check)
     const [newText, setNewText] = useState(item.value + '')
+    const inputRef = useRef()
 
-    const handleSelect = async (item) => {
+    const handleChangeCheckbox = async (item) => {
         const newTodos = [...task]
-        setSelection(!isSelected)
-        const indexItem = newTodos.findIndex(tasks => tasks.value === item)
-        newTodos[indexItem].check = !isSelected
+        const indexItem = newTodos.findIndex(tasks => tasks.value === item.value)
+        newTodos[indexItem].check = !item.check
         setTask(newTodos)
     }
 
-
-    const handleEdit = async (item) => {
+    const handleEditSave = async (item) => {
         if(newText === '') {
             Alert.alert('Atenção', 'Nome da tarefa vazio!') // Message Alert
+            inputRef.current.focus()
             return;
         } 
         const newTodos = [...task]
@@ -50,45 +49,61 @@ const TodoItem = ({task, setTask, item}) => {
     }
 
     return(
-        <View style={styles.ContainerView}>
-               <CheckBox
-                tintColors={{ true: '#3E3364'}}
-                value={isSelected}
-                onValueChange={() => handleSelect(item.value)}
-                style={styles.caixa}
+        <KeyboardAvoidingView
+            keyboardVerticalOffset={0}
+            behavior="padding"
+            enabled={ Platform.OS === 'ios' }
+            style={styles.ContainerView}>
+            <CheckBox
+                    tintColors={{ true: '#FFF'}}
+                    value={item.check}
+                    onValueChange={() => handleChangeCheckbox(item)}
+                    style={styles.caixa}
                 />
             <View style={styles.taskContainer}>
-                    {isEditing 
-                    ? <TextInput maxLength={35} multiline value={newText} style={styles.InputUpdate} onChangeText={setNewText}/>
-                    : <Text style={[styles.Texto, isSelected && {textDecorationLine: 'line-through'}]}>{item.value}</Text>}
+                {isEditing 
+                    ? <TextInput 
+                        multiline
+                        placeholder="Altere aqui..."
+                        placeholderTextColor="#D0D0D5"
+                        ref={inputRef}
+                        autoFocus={true}
+                        value={newText}
+                        style={styles.InputUpdate}
+                        onChangeText={setNewText}/>
+                    : <Text 
+                        style={[
+                            styles.Texto, 
+                            item.check && {textDecorationLine: 'line-through', opacity: .5}]}
+                        >{item.value}</Text>}
                 <View style={styles.Buttons}>
                     {isEditing 
-                    ? <TouchableOpacity //Button save
-                        onPress={() => handleEdit(item.value)}
-                        >
-                        <MaterialIcons 
-                            name="save" 
-                            size={25} color='#fff' />
-                    </TouchableOpacity>
-                    :<> 
-                        <TouchableOpacity //Button Edit
-                            onPress={() => setEdit(true)} 
+                        ? <TouchableOpacity //Button save
+                            onPress={() => handleEditSave(item.value)}
                             >
                             <MaterialIcons 
-                                name="edit" 
+                                name="save" 
                                 size={25} color='#fff' />
                         </TouchableOpacity>
-                        <TouchableOpacity //Button Remove
-                            onPress={() => onHandleRemoveTask(item.value)} 
-                            >
-                            <MaterialIcons 
-                                name="delete-forever" 
-                                size={25} color='#fff' />
-                        </TouchableOpacity>
-                    </>}
+                        : <> 
+                            <TouchableOpacity //Button Edit
+                                onPress={() => setEdit(!isEditing)} 
+                                >
+                                <MaterialIcons 
+                                    name="edit" 
+                                    size={25} color='#fff' />
+                            </TouchableOpacity>
+                            <TouchableOpacity //Button Remove
+                                onPress={() => onHandleRemoveTask(item.value)} 
+                                >
+                                <MaterialIcons 
+                                    name="delete-forever" 
+                                    size={25} color='#fff' />
+                            </TouchableOpacity>
+                        </>}
                 </View>
             </View>
-        </View>
+        </KeyboardAvoidingView>
     )
 }
 
