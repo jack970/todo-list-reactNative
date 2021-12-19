@@ -1,3 +1,3 @@
-export {default as Task} from "./components/Task";
-export {default as Input } from "./components/Input";
-export {default as Header} from './components/Header'
+export { default as AddListModal } from "./components/AddListModal";
+export { default as TodoList } from "./components/TodoList";
+export { default as TodoModal } from "./components/TodoModal";

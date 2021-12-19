@@ -1,70 +1,94 @@
-import React, { useState, useEffect } from 'react';
-import styles from './src/assets/styles';
-import {Task, Input, Header} from './src/index.js'
-import { 
-    View, 
-    Alert,
-    Keyboard,
-    AsyncStorage,
-    KeyboardAvoidingView, Platform
-  } from 'react-native';
+import React, { useEffect, useState } from "react";
+import styles from "./src/assets/styles";
+import { MaterialIcons } from "@expo/vector-icons";
+import { AddListModal, TodoList } from "./src/index.js";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  FlatList,
+  Modal,
+  AsyncStorage,
+} from "react-native";
+import tempData from "./src/assets/tempData";
 
 export default function App() {
-    const [task, setTask] = useState([])
-    const [newTask, setNewTask] = useState('')
+  const [addTodoVisible, setAddTodoVisible] = useState(false);
+  const [lists, setLists] = useState(tempData);
 
-    const onHandleAddTask = async () => { // Função Adiciona tarefa 'newTask' no array 'task'
-      if(newTask === '') { // Se o Input estiver vazio
-        return; // Retorna nada
+  // ERRO AQUI
+  useEffect(() => {
+    const carregaDados = async () => {
+      const task = await AsyncStorage.getItem("Tarefas");
+
+      if (task) {
+        setLists(JSON.parse(task));
       }
+    };
+    carregaDados();
+  }, []);
 
-      const search = task.filter(task => task.value === newTask) // retorna o item do array 'task', caso seja encontrado em 'newtask'
+  useEffect(() => {
+    const salvaDados = async () => {
+      await AsyncStorage.setItem("Tarefas", JSON.stringify(lists));
+    };
+    salvaDados();
+  }, [lists]);
 
-      if(search.length !== 0) { // se forem encontrados items do array 'task' 
-        Alert.alert('Atenção', 'Nome da tarefa repetido') // Message Alert
-        Keyboard.dismiss() // Desce Teclado
-        return; // Retorna nada
-      }
+  const renderList = (list) => {
+    return <TodoList list={list} updateList={updateList} />;
+  };
 
-      setTask([ ...task, {check: false, value: newTask}]) //permanece com os itens da lista 'Task' e adiciona a string 'newTask' a ela
-      setNewTask('') // Limpa input
+  const addList = (list) => {
+    setLists([...lists, { ...list, id: lists.length + 1, todos: [] }]);
+  };
 
-      Keyboard.dismiss() // Desce Teclado
-    }
-
-    useEffect(() => {
-      const carregaDados = async () => {
-        const task = await AsyncStorage.getItem('task')
-  
-        if(task) {
-          setTask(JSON.parse(task))
-        }
-      }
-      carregaDados()
-    }, [])
-  
-    useEffect(() => { // Função disparada quando houver alteração no array task
-      const salvaDados = async () => {
-        AsyncStorage.setItem("task", JSON.stringify(task))
-      }
-      salvaDados()
-    }, [task])
-  
-    return (
-      <KeyboardAvoidingView
-        keyboardVerticalOffset={0}
-        behavior="padding"
-        style={{ flex: 1 }}
-        enabled={ Platform.OS === 'ios' }
-      >
-        <Header title="Tarefas do Dia" setTask={setTask}/>
-        <View style={styles.container}>
-          <Task notTaskMessage='Nenhuma tarefa foi adicionada!' task={task} setTask={setTask} />
-          <Input 
-            newTask={newTask} 
-            setNewTask={setNewTask} 
-            onHandleAddTask={onHandleAddTask} />
-        </View>
-      </KeyboardAvoidingView>
+  const updateList = (list) => {
+    setLists(
+      lists.map((item) => {
+        return item.id === list.id ? list : item;
+      })
     );
+  };
+
+  return (
+    <View style={styles.ContainerList}>
+      <Modal
+        animationType="slide"
+        visible={addTodoVisible}
+        onRequestClose={() => setAddTodoVisible(!addTodoVisible)}
+      >
+        <AddListModal
+          closeModal={() => setAddTodoVisible(!addTodoVisible)}
+          addList={addList}
+        />
+      </Modal>
+      <View style={{ flexDirection: "row" }}>
+        <View style={styles.divider} />
+        <Text style={styles.titleHome}>
+          Todo{" "}
+          <Text style={{ fontWeight: "300", color: "#4040f0" }}>Lists</Text>
+        </Text>
+        <View style={styles.divider} />
+      </View>
+      <View style={styles.ViewAddList}>
+        <TouchableOpacity
+          style={styles.addList}
+          onPress={() => setAddTodoVisible(!addTodoVisible)}
+        >
+          <MaterialIcons name="add" size={16} color="#3c48f3" />
+        </TouchableOpacity>
+        <Text style={styles.add}>Add uma Lista</Text>
+      </View>
+      <View style={{ height: 275, paddingLeft: 32 }}>
+        <FlatList
+          data={lists}
+          keyExtractor={(item, id) => id.toString()}
+          horizontal={true}
+          showsHorizontalScrollIndicator={false}
+          renderItem={({ item }) => renderList(item)}
+        />
+      </View>
+    </View>
+  );
 }

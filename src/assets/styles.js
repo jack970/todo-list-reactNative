@@ -93,6 +93,67 @@ export default StyleSheet.create({
       flexDirection: 'row',
       width: 80,
       justifyContent: 'space-around'
+    },
+    ContainerList: {
+      flex: 1,
+      backgroundColor: "#fff",
+      alignItems: "center",
+      justifyContent: "center"
+    },
+    divider: {
+      backgroundColor: "#919191",
+      height: 1,
+      flex: 1,
+      alignSelf: "center"
+    },
+    titleHome: {
+      fontSize: 38,
+      fontWeight: "bold",
+      color: "#000000",
+      paddingHorizontal: 64
+    },
+    ViewAddList: {
+      display: "flex",
+      alignItems: 'center',
+      marginVertical: 48
+    },
+    addList: {
+      borderWidth: 2,
+      borderColor: "#4040f0",
+      width: 50,
+      borderRadius: 4,
+      padding: 16,
+      alignItems: "center",
+      justifyContent: "center"
+    },
+    add: {
+      fontSize: 14,
+      color: "#4040f0",
+      marginTop: 8
+    },
+    listContainer: {
+      paddingVertical: 32,
+      paddingHorizontal: 16,
+      borderRadius: 6,
+      marginHorizontal: 12,
+      alignItems: "center",
+      width: 200
+    },
+    listTitle: {
+      fontSize: 24,
+      fontWeight: "700",
+      color: "#fff",
+      marginBottom: 18
+    },
+    count: {
+      fontSize: 48,
+      fontWeight: "200",
+      color: "#fff",
+    },
+    subtitle: {
+      fontSize: 12,
+      fontWeight: "700",
+      color: "#fff"
     }
-  });
+});
   
